@@ -1,0 +1,681 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Harness Editor の受け取りページ。Mac アプリのダウンロードと、初回インストール手順。">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8E%AC%3C/text%3E%3C/svg%3E">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Harness Editor">
+<meta property="og:description" content="AI が 9 割つくった動画の、最後の 1 割を自分の手で直すための編集ソフト。Mac アプリのダウンロードとインストール手順。">
+<meta property="og:url" content="https://yokoyamahayata-cyber.github.io/harness-editor-download/">
+<meta property="og:locale" content="ja_JP">
+<meta name="twitter:card" content="summary">
+<title>Harness Editor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@700;900&family=Noto+Sans+JP:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+  :root {
+    --ground: #EDF1F2;
+    --surface: #FFFFFF;
+    --surface-sunk: #E3EAEC;
+    --ink: #171A1F;
+    --muted: #5A646B;
+    --line: #D3DCDF;
+    --accent: #0B6E66;
+    --accent-soft: #D9ECE9;
+    --on-accent: #FFFFFF;
+    --caution: #8F5410;
+    --caution-soft: #FBEEDA;
+    --caution-line: #E6C78F;
+    --shadow: 0 1px 2px rgba(23, 26, 31, .06), 0 12px 32px -16px rgba(23, 26, 31, .22);
+    --display: "Zen Kaku Gothic New", "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+    --body: "Noto Sans JP", "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+    --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    color-scheme: light;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground: #11161A;
+      --surface: #192026;
+      --surface-sunk: #0C1115;
+      --ink: #E8EDEE;
+      --muted: #97A4AA;
+      --line: #2B363D;
+      --accent: #45C4B6;
+      --accent-soft: #15302E;
+      --on-accent: #06211F;
+      --caution: #E6AC4C;
+      --caution-soft: #2B2112;
+      --caution-line: #5C451F;
+      --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 12px 32px -16px rgba(0, 0, 0, .7);
+      color-scheme: dark;
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --ground: #11161A;
+    --surface: #192026;
+    --surface-sunk: #0C1115;
+    --ink: #E8EDEE;
+    --muted: #97A4AA;
+    --line: #2B363D;
+    --accent: #45C4B6;
+    --accent-soft: #15302E;
+    --on-accent: #06211F;
+    --caution: #E6AC4C;
+    --caution-soft: #2B2112;
+    --caution-line: #5C451F;
+    --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 12px 32px -16px rgba(0, 0, 0, .7);
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--ground);
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 16px;
+    line-height: 1.85;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 0 24px 96px;
+  }
+
+  /* ---- hero ---- */
+
+  .hero {
+    padding: 72px 0 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0;
+  }
+
+  h1 {
+    font-family: var(--display);
+    font-weight: 900;
+    font-size: clamp(38px, 7vw, 58px);
+    line-height: 1.12;
+    letter-spacing: -.01em;
+    margin: 0;
+    text-wrap: balance;
+  }
+
+  .lead {
+    margin: 0;
+    font-size: 17px;
+    color: var(--muted);
+    max-width: 34em;
+  }
+
+  .lead strong { color: var(--ink); font-weight: 700; }
+
+  /* ---- download card ---- */
+
+  .download {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    box-shadow: var(--shadow);
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    margin-top: 12px;
+  }
+
+  .btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    background: var(--accent);
+    color: var(--on-accent);
+    text-decoration: none;
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 19px;
+    padding: 20px 28px;
+    border-radius: 10px;
+    transition: transform .12s ease, filter .12s ease;
+  }
+
+  .btn:hover { filter: brightness(1.08); transform: translateY(-1px); }
+  .btn:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+
+  .btn svg { flex: none; }
+
+  .specs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 22px;
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .specs span { display: flex; align-items: center; gap: 7px; }
+  .specs span::before {
+    content: "";
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--accent);
+    flex: none;
+  }
+
+  .linkrow {
+    display: flex;
+    gap: 8px;
+    align-items: stretch;
+    border-top: 1px solid var(--line);
+    padding-top: 18px;
+  }
+
+  .linkrow code {
+    flex: 1;
+    min-width: 0;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--muted);
+    background: var(--surface-sunk);
+    border-radius: 7px;
+    padding: 10px 12px;
+    overflow-x: auto;
+    white-space: nowrap;
+    line-height: 1.6;
+  }
+
+  .copy {
+    flex: none;
+    font-family: var(--body);
+    font-weight: 500;
+    font-size: 13px;
+    color: var(--ink);
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 7px;
+    padding: 0 16px;
+    cursor: pointer;
+    transition: border-color .12s ease, color .12s ease;
+  }
+
+  .copy:hover { border-color: var(--accent); color: var(--accent); }
+  .copy:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+
+  /* ---- sections ---- */
+
+  section { margin-top: 64px; }
+
+  h2 {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 25px;
+    line-height: 1.4;
+    margin: 0 0 8px;
+    text-wrap: balance;
+  }
+
+  .section-note {
+    margin: 0 0 28px;
+    color: var(--muted);
+    font-size: 15px;
+  }
+
+  /* ---- step rail ---- */
+
+  .steps {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+  }
+
+  .steps > li {
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    gap: 18px;
+    position: relative;
+  }
+
+  .steps > li::before {
+    content: "";
+    position: absolute;
+    left: 19.5px;
+    top: 36px;
+    bottom: -30px;
+    width: 1px;
+    background: var(--line);
+  }
+
+  .steps > li:last-child::before { display: none; }
+
+  .num {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    color: var(--accent);
+    font-family: var(--mono);
+    font-size: 14px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+  }
+
+  .step-key .num {
+    background: var(--caution-soft);
+    border-color: var(--caution-line);
+    color: var(--caution);
+  }
+
+  .step-body { padding-top: 5px; min-width: 0; }
+
+  h3 {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 1.5;
+    margin: 0 0 4px;
+  }
+
+  .step-body p { margin: 0; color: var(--muted); font-size: 15px; }
+  .step-body p + p { margin-top: 10px; }
+
+  kbd, .file {
+    font-family: var(--mono);
+    font-size: .88em;
+    background: var(--surface-sunk);
+    border-radius: 5px;
+    padding: 2px 7px;
+    color: var(--ink);
+    white-space: nowrap;
+  }
+
+  .file { white-space: normal; word-break: break-all; }
+
+  /* ---- caution block ---- */
+
+  .caution {
+    background: var(--caution-soft);
+    border: 1px solid var(--caution-line);
+    border-radius: 12px;
+    padding: 22px 24px;
+    margin-top: 16px;
+  }
+
+  .caution-head {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--caution);
+    margin: 0 0 14px;
+    display: flex;
+    gap: 9px;
+    align-items: baseline;
+  }
+
+  .caution ol {
+    margin: 0;
+    padding-left: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    font-size: 15px;
+    color: var(--ink);
+  }
+
+  .caution ol::marker { color: var(--caution); }
+
+  .caution .after {
+    margin: 16px 0 0;
+    font-size: 14px;
+    color: var(--muted);
+    border-top: 1px solid var(--caution-line);
+    padding-top: 14px;
+  }
+
+  .quote {
+    font-family: var(--mono);
+    font-size: 13px;
+    background: var(--surface);
+    border: 1px solid var(--caution-line);
+    border-radius: 7px;
+    padding: 9px 12px;
+    display: inline-block;
+    margin: 4px 0;
+    color: var(--ink);
+    line-height: 1.6;
+  }
+
+  /* ---- cards ---- */
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 26px 28px;
+  }
+
+  .card + .card { margin-top: 14px; }
+
+  .card h3 { margin-bottom: 8px; }
+  .card p { margin: 0; color: var(--muted); font-size: 15px; }
+  .card p + p { margin-top: 12px; }
+
+  .card ol, .card ul {
+    margin: 14px 0 0;
+    padding-left: 20px;
+    color: var(--muted);
+    font-size: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+  a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 2px; }
+
+  .faq { display: flex; flex-direction: column; gap: 2px; }
+
+  details {
+    border-bottom: 1px solid var(--line);
+    padding: 4px 0;
+  }
+
+  details:first-child { border-top: 1px solid var(--line); }
+
+  summary {
+    cursor: pointer;
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 16px;
+    padding: 16px 32px 16px 0;
+    position: relative;
+    list-style: none;
+  }
+
+  summary::-webkit-details-marker { display: none; }
+
+  summary::after {
+    content: "+";
+    position: absolute;
+    right: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: var(--mono);
+    font-size: 18px;
+    color: var(--accent);
+  }
+
+  details[open] summary::after { content: "–"; }
+  summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+
+  details .answer {
+    padding: 0 0 18px;
+    margin: 0;
+    color: var(--muted);
+    font-size: 15px;
+    max-width: 58em;
+  }
+
+  details .answer + .answer { padding-top: 0; margin-top: -6px; }
+
+  footer {
+    margin-top: 72px;
+    padding-top: 26px;
+    border-top: 1px solid var(--line);
+    font-size: 13px;
+    color: var(--muted);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; }
+  }
+
+  @media (max-width: 560px) {
+    .hero { padding-top: 48px; }
+    .download { padding: 22px; }
+    .linkrow { flex-direction: column; }
+    .copy { padding: 11px 16px; }
+    .card { padding: 22px; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="hero">
+    <p class="eyebrow">For video editors</p>
+    <h1>Harness Editor</h1>
+    <p class="lead">AI が 9 割つくった動画の、<strong>最後の 1 割を自分の手で直す</strong>ための編集ソフトです。カット・テロップ・効果音・BGM・書き出しまで 1 画面で完結します。素材はすべて自分のパソコンの中だけで処理されるので、どこにもアップロードされません。</p>
+
+    <div class="download">
+      <a class="btn" id="dl" href="https://github.com/yokoyamahayata-cyber/harness-editor-download/releases/download/v0.8.2/Harness-Editor-0.8.2-mac-apple-silicon.zip" target="_blank" rel="noopener">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v13"/><path d="m6 11 6 6 6-6"/><path d="M4 21h16"/></svg>
+        Mac アプリをダウンロード
+      </a>
+      <div class="specs">
+        <span>バージョン 0.8.2</span>
+        <span>約 475 MB</span>
+        <span>Apple Silicon Mac 専用</span>
+      </div>
+      <div class="linkrow">
+        <code id="url">https://github.com/yokoyamahayata-cyber/harness-editor-download/releases/download/v0.8.2/Harness-Editor-0.8.2-mac-apple-silicon.zip</code>
+        <button class="copy" id="copy" type="button">リンクをコピー</button>
+      </div>
+    </div>
+  </header>
+
+  <section>
+    <h2>インストールのしかた</h2>
+    <p class="section-note">はじめの 1 回だけ、5 分ほどの作業があります。2 回目からはアイコンをダブルクリックするだけです。</p>
+
+    <ol class="steps">
+
+      <li>
+        <div class="num">1</div>
+        <div class="step-body">
+          <h3>ダウンロードする</h3>
+          <p>上のボタンを押すと「ダウンロード」フォルダに ZIP ファイルが入ります。475 MB あるので、回線によっては 5〜15 分かかります。終わるまでそのまま待ってください。</p>
+        </div>
+      </li>
+
+      <li>
+        <div class="num">2</div>
+        <div class="step-body">
+          <h3>ZIP を開く</h3>
+          <p>ダウンロードされた <span class="file">Harness-Editor-0.8.2-mac-apple-silicon.zip</span> をダブルクリックすると、隣に <span class="file">Harness Editor</span> というアプリのアイコンが出てきます。</p>
+        </div>
+      </li>
+
+      <li>
+        <div class="num">3</div>
+        <div class="step-body">
+          <h3>「アプリケーション」フォルダへ入れる</h3>
+          <p>出てきた <span class="file">Harness Editor</span> を、Finder の左側にある「アプリケーション」へドラッグして移動します。ここに入れておくと、Launchpad や Spotlight からも開けるようになります。</p>
+        </div>
+      </li>
+
+      <li class="step-key">
+        <div class="num">4</div>
+        <div class="step-body">
+          <h3>初回だけ、Mac の確認を通す</h3>
+          <p>ここが唯一つまずくところです。ダブルクリックすると、こんな画面が出ます。</p>
+          <p><span class="quote">「Harness Editor」は、開発元を確認できないため開けません。</span></p>
+          <p>アプリが壊れているわけではありません。Apple に年間費用を払って登録した開発元の署名が付いていないだけで、中身は問題ありません。次の手順で通してください。</p>
+
+          <div class="caution">
+            <p class="caution-head"><span>⚠</span><span>セキュリティの確認を通す手順</span></p>
+            <ol>
+              <li>出てきた画面を「完了」または「OK」でいったん閉じる</li>
+              <li>画面左上の <kbd>&#63743;</kbd> マーク →「システム設定」を開く</li>
+              <li>左の列から「プライバシーとセキュリティ」を選ぶ</li>
+              <li>右側を下までスクロールすると「"Harness Editor" は開発元を確認できないため、使用がブロックされました」という行がある。その右の <strong>「このまま開く」</strong> を押す</li>
+              <li>Mac のパスワード（または Touch ID）を求められたら入力する</li>
+              <li>もう一度確認が出たら <strong>「開く」</strong> を押す</li>
+            </ol>
+            <p class="after">この作業が必要なのは 1 回目だけです。次からは普通にダブルクリックで開きます。</p>
+          </div>
+        </div>
+      </li>
+
+      <li>
+        <div class="num">5</div>
+        <div class="step-body">
+          <h3>開けたら完了</h3>
+          <p>アプリが立ち上がれば準備は終わりです。初回だけ、動画の保存先として「書類」フォルダの中に <span class="file">Harness Editor / Projects</span> が作られます。</p>
+        </div>
+      </li>
+
+    </ol>
+  </section>
+
+  <section>
+    <h2>開いたあとにやること</h2>
+    <p class="section-note">はじめて開くと画面上でチュートリアルが出ます。読みながら 1 本つくってしまうのがいちばん早いです。</p>
+
+    <div class="card">
+      <h3>最初の 1 本の流れ</h3>
+      <ol>
+        <li>ホーム画面から動画ファイルを取り込む</li>
+        <li>波形を見ながら、いらない部分をカットする（元の動画ファイルには手を加えません）</li>
+        <li>テロップを置く・直す。位置と大きさはプレビュー上でドラッグできます</li>
+        <li>効果音や BGM を、タイムラインにドラッグして置く</li>
+        <li>書き出して MP4 にする。透かしは入りません</li>
+      </ol>
+      <p style="margin-top:16px">機能ごとの詳しい説明は、画面右上の「？」ボタンから写真つきで読めます。<a href="https://github.com/takicoach/harness-editor/blob/main/docs/%E3%81%AF%E3%81%98%E3%82%81%E3%81%A6%E3%82%AC%E3%82%A4%E3%83%89.md" target="_blank" rel="noopener">はじめてガイド</a> も用意されています。</p>
+    </div>
+
+    <div class="card">
+      <h3>最初から使えないもの</h3>
+      <p>次の 2 つは、アプリに同梱されていません。使う場合は別途準備が必要なので、先にお伝えしておきます。</p>
+      <ul>
+        <li><strong>自動文字起こし</strong> — Python と音声認識モデルのセットアップが別に必要です</li>
+        <li><strong>「✦ AI で編集する」</strong> — Claude Code（Anthropic）か Codex（OpenAI）の契約が必要です</li>
+      </ul>
+      <p style="margin-top:14px">どちらも無くても、カット・テロップ・効果音・BGM・音量調整・書き出しといった編集機能はすべて使えます。</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Intel Mac・Windows をお使いの方へ</h2>
+    <p class="section-note">上のアプリは Apple Silicon（M1 以降）の Mac 専用です。それ以外のパソコンでは、ソース版を使います。</p>
+
+    <div class="card">
+      <h3>ソース版の入れかた</h3>
+      <ol>
+        <li><a href="https://github.com/takicoach/harness-editor/archive/refs/heads/main.zip" target="_blank" rel="noopener">こちらから ZIP をダウンロード</a>して解凍する</li>
+        <li>解凍したフォルダの中の <span class="file">setup.command</span>（Windows は <span class="file">setup.bat</span>）をダブルクリック。必要なものが自動で入ります（初回のみ・数分）</li>
+        <li>終わったら <span class="file">start.command</span>（Windows は <span class="file">start.bat</span>）をダブルクリック。ブラウザが自動で開きます</li>
+        <li>閉じるときは、起動時に出てきた黒いウィンドウを閉じます</li>
+      </ol>
+      <p style="margin-top:16px"><strong>Windows の方へ正直にお伝えします。</strong>作者が最新版の Windows 動作を確認できていません。うまく動かないことがあるので、その時はご連絡ください。</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>うまくいかないとき</h2>
+
+    <div class="faq">
+      <details>
+        <summary>「壊れているため開けません」と出る</summary>
+        <p class="answer">ダウンロードが途中で切れていることが多いです。アプリをゴミ箱に入れ、ZIP も削除してから、もう一度ダウンロードし直してください。</p>
+      </details>
+
+      <details>
+        <summary>「このまま開く」のボタンが見当たらない</summary>
+        <p class="answer">「プライバシーとセキュリティ」の画面を、いちばん下までスクロールしてみてください。ページの下のほうに出ます。また、この表示は一度アプリを開こうとした直後にしか出ません。見つからない場合は、先にアプリをダブルクリックしてから、もう一度システム設定を開いてください。</p>
+      </details>
+
+      <details>
+        <summary>ダウンロードが途中で止まる</summary>
+        <p class="answer">475 MB と大きいので、電波の弱い場所では止まることがあります。Wi-Fi の安定した場所で、時間を置いて試してください。上の「リンクをコピー」で URL をコピーして、ブラウザのアドレス欄に直接貼り付ける方法も使えます。</p>
+      </details>
+
+      <details>
+        <summary>書き出した動画はどこに入る？</summary>
+        <p class="answer">「書類」フォルダの中の <span class="file">Harness Editor / Projects</span> の、その動画のフォルダに入ります。アプリのメニューから保存先のフォルダを直接開くこともできます。</p>
+      </details>
+
+      <details>
+        <summary>素材や動画が外部に送られることはある？</summary>
+        <p class="answer">ありません。編集も書き出しも、すべて自分のパソコンの中だけで動いています。唯一の例外は「✦ AI で編集する」を使ったときで、このときだけ依頼した文章が AI に送られます。</p>
+      </details>
+    </div>
+  </section>
+
+  <footer>
+    <div>Harness Editor 0.8.2 — MIT License</div>
+    <div>開発元: <a href="https://github.com/takicoach/harness-editor" target="_blank" rel="noopener">takicoach/harness-editor</a>（このページは配布用のビルドを置いたものです）</div>
+  </footer>
+
+</div>
+
+<script>
+  (function () {
+    var btn = document.getElementById("copy");
+    var url = document.getElementById("url").textContent.trim();
+    btn.addEventListener("click", function () {
+      var done = function () {
+        btn.textContent = "コピーしました";
+        setTimeout(function () { btn.textContent = "リンクをコピー"; }, 2000);
+      };
+      try {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(url).then(done, fallback);
+        } else {
+          fallback();
+        }
+      } catch (e) {
+        fallback();
+      }
+      function fallback() {
+        try {
+          var ta = document.createElement("textarea");
+          ta.value = url;
+          ta.setAttribute("readonly", "");
+          ta.style.position = "fixed";
+          ta.style.opacity = "0";
+          document.body.appendChild(ta);
+          ta.select();
+          document.execCommand("copy");
+          document.body.removeChild(ta);
+          done();
+        } catch (err) {
+          btn.textContent = "手動でコピーしてください";
+          setTimeout(function () { btn.textContent = "リンクをコピー"; }, 2500);
+        }
+      }
+    });
+  })();
+</script>
+</body>
+</html>
