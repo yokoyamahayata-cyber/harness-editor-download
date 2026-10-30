@@ -63,7 +63,9 @@ EOF
 chmod +x "$W/scripts/postinstall"
 
 cat > "$W/resources/welcome.html" <<'EOF'
-<html><body style="font-family:-apple-system,'Hiragino Kaku Gothic ProN',sans-serif;font-size:13px;line-height:1.85;color:#1d1d1f">
+<html>
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta charset="UTF-8"></head>
+<body style="font-family:-apple-system,'Hiragino Kaku Gothic ProN',sans-serif;font-size:13px;line-height:1.85;color:#1d1d1f">
 <p>Harness Editor を「アプリケーション」フォルダにインストールします。</p>
 <p>「続ける」を押して進めてください。途中で Mac のパスワード（または Touch ID）を求められます。</p>
 <p style="color:#6e6e73">・インストールには 1〜2 分かかります<br>・終わると自動で Harness Editor が開きます<br>・2 回目からは Launchpad からダブルクリックで開けます</p>
@@ -71,7 +73,9 @@ cat > "$W/resources/welcome.html" <<'EOF'
 EOF
 
 cat > "$W/resources/conclusion.html" <<'EOF'
-<html><body style="font-family:-apple-system,'Hiragino Kaku Gothic ProN',sans-serif;font-size:13px;line-height:1.85;color:#1d1d1f">
+<html>
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta charset="UTF-8"></head>
+<body style="font-family:-apple-system,'Hiragino Kaku Gothic ProN',sans-serif;font-size:13px;line-height:1.85;color:#1d1d1f">
 <p><b>インストールが完了しました。</b></p>
 <p>Harness Editor が自動で開きます（初回は立ち上がるまで少し時間がかかります）。</p>
 <p>もし開かない場合は、Launchpad または「アプリケーション」フォルダの Harness Editor をダブルクリックしてください。</p>
@@ -79,12 +83,19 @@ cat > "$W/resources/conclusion.html" <<'EOF'
 </body></html>
 EOF
 
+# Installer は HTML の文字コードを誤判定して化けることがあるため、
+# 日本語を数値文字参照に変換して純 ASCII にしておく（charset 指定にも依存しない）
+for f in "$W/resources/welcome.html" "$W/resources/conclusion.html"; do
+  python3 -c 'import sys; p=sys.argv[1]; d=open(p,encoding="utf-8").read(); open(p,"w",encoding="ascii",errors="xmlcharrefreplace").write(d)' "$f"
+  LC_ALL=C grep -q '[^[:print:][:space:]]' "$f" && { echo "✗ $f に非ASCIIが残っています" >&2; exit 1; }
+done
+
 cat > "$W/dist.xml" <<EOF
 <?xml version="1.0" encoding="utf-8"?>
 <installer-gui-script minSpecVersion="2">
   <title>Harness Editor</title>
-  <welcome file="welcome.html" mime-type="text/html"/>
-  <conclusion file="conclusion.html" mime-type="text/html"/>
+  <welcome file="welcome.html" mime-type="text/html; charset=UTF-8"/>
+  <conclusion file="conclusion.html" mime-type="text/html; charset=UTF-8"/>
   <domains enable_anywhere="false" enable_currentUserHome="false" enable_localSystem="true"/>
   <options customize="never" require-scripts="false" hostArchitectures="arm64"/>
   <choices-outline><line choice="default"/></choices-outline>
