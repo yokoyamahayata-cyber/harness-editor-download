@@ -182,6 +182,19 @@
     flex: none;
   }
 
+  .dl-note {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.75;
+    color: var(--caution);
+    background: var(--caution-soft);
+    border: 1px solid var(--caution-line);
+    border-radius: 9px;
+    padding: 13px 16px;
+  }
+
+  .dl-note strong { color: var(--caution); font-weight: 700; }
+
   .linkrow {
     display: flex;
     gap: 8px;
@@ -372,6 +385,48 @@
     line-height: 1.6;
   }
 
+  .cmd {
+    margin-top: 14px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    overflow: hidden;
+    background: var(--surface-sunk);
+  }
+
+  .cmd pre {
+    margin: 0;
+    padding: 16px 18px;
+    overflow-x: auto;
+    font-family: var(--mono);
+    font-size: 12.5px;
+    line-height: 1.8;
+    color: var(--ink);
+    white-space: pre;
+  }
+
+  .cmd-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 14px 10px 18px;
+    border-top: 1px solid var(--line);
+    background: var(--surface);
+  }
+
+  .cmd-bar span {
+    font-size: 12.5px;
+    color: var(--muted);
+  }
+
+  .note-inline {
+    margin-top: 14px;
+    font-size: 14px;
+    color: var(--muted);
+    border-left: 2px solid var(--line);
+    padding-left: 14px;
+  }
+
   /* ---- cards ---- */
 
   .card {
@@ -487,16 +542,17 @@
         <span>約 475 MB</span>
         <span>Apple Silicon Mac 専用</span>
       </div>
+      <p class="dl-note">ダウンロードしたあと、<strong>ターミナルに 1 行貼り付ける作業</strong>があります（下の手順 2）。先にアプリをダブルクリックすると「壊れている」と表示されますが、壊れていません。</p>
       <div class="linkrow">
         <code id="url">https://github.com/yokoyamahayata-cyber/harness-editor-download/releases/download/v0.8.2/Harness-Editor-0.8.2-mac-apple-silicon.zip</code>
-        <button class="copy" id="copy" type="button">リンクをコピー</button>
+        <button class="copy" type="button" data-copy="url">リンクをコピー</button>
       </div>
     </div>
   </header>
 
   <section>
     <h2>インストールのしかた</h2>
-    <p class="section-note">はじめの 1 回だけ、5 分ほどの作業があります。2 回目からはアイコンをダブルクリックするだけです。</p>
+    <p class="section-note">はじめの 1 回だけ、ターミナルに 1 行貼り付ける作業があります。2 回目からはアイコンをダブルクリックするだけです。</p>
 
     <ol class="steps">
 
@@ -505,53 +561,44 @@
         <div class="step-body">
           <h3>ダウンロードする</h3>
           <p>上のボタンを押すと「ダウンロード」フォルダに ZIP ファイルが入ります。475 MB あるので、回線によっては 5〜15 分かかります。終わるまでそのまま待ってください。</p>
+          <p><strong>ZIP はダブルクリックせず、そのままにしておいてください。</strong>次の手順がまとめてやってくれます。</p>
         </div>
       </li>
 
-      <li>
+      <li class="step-key">
         <div class="num">2</div>
         <div class="step-body">
-          <h3>ZIP を開く</h3>
-          <p>ダウンロードされた <span class="file">Harness-Editor-0.8.2-mac-apple-silicon.zip</span> をダブルクリックすると、隣に <span class="file">Harness Editor</span> というアプリのアイコンが出てきます。</p>
+          <h3>ターミナルに 1 行貼り付ける</h3>
+          <p>ダウンロードしたアプリをそのまま開くと、Mac が <span class="quote">「Harness Editor」は壊れているため開けません。</span> と表示します。壊れてはいません。Apple に年間登録していない開発元のアプリに、Mac が一律でこの表示を出す仕様です。次の 1 行がその制限を外して、インストールまで済ませます。</p>
+
+          <div class="caution">
+            <p class="caution-head"><span>⚠</span><span>手順</span></p>
+            <ol>
+              <li><kbd>command</kbd> + <kbd>スペース</kbd> を押して、<strong>ターミナル</strong> と入力して <kbd>Enter</kbd>。黒い画面（ターミナル）が開きます</li>
+              <li>下の <strong>「コマンドをコピー」</strong> を押す</li>
+              <li>ターミナルの画面をクリックして、<kbd>command</kbd> + <kbd>V</kbd> で貼り付け、<kbd>Enter</kbd> を押す</li>
+              <li>数秒待つと、Harness Editor が自動で開きます</li>
+            </ol>
+          </div>
+
+          <div class="cmd">
+            <pre id="installcmd">cd ~/Downloads && ditto -x -k "$(ls -t Harness-Editor-*.zip | head -1)" . && xattr -dr com.apple.quarantine "Harness Editor.app" && mv -f "Harness Editor.app" /Applications/ && rm -rf __MACOSX && open "/Applications/Harness Editor.app"</pre>
+            <div class="cmd-bar">
+              <span>解凍 → インストール → 警告の解除 → 起動 までを行います</span>
+              <button class="copy" type="button" data-copy="installcmd">コマンドをコピー</button>
+            </div>
+          </div>
+
+          <p class="note-inline">このコマンドがしていることは、ZIP の解凍、アプリを「アプリケーション」フォルダへ移動、Mac が付けた「インターネットから来たファイル」という印の削除、アプリの起動の 4 つだけです。何かを外部に送ることはありません。</p>
         </div>
       </li>
 
       <li>
         <div class="num">3</div>
         <div class="step-body">
-          <h3>「アプリケーション」フォルダへ入れる</h3>
-          <p>出てきた <span class="file">Harness Editor</span> を、Finder の左側にある「アプリケーション」へドラッグして移動します。ここに入れておくと、Launchpad や Spotlight からも開けるようになります。</p>
-        </div>
-      </li>
-
-      <li class="step-key">
-        <div class="num">4</div>
-        <div class="step-body">
-          <h3>初回だけ、Mac の確認を通す</h3>
-          <p>ここが唯一つまずくところです。ダブルクリックすると、こんな画面が出ます。</p>
-          <p><span class="quote">「Harness Editor」は、開発元を確認できないため開けません。</span></p>
-          <p>アプリが壊れているわけではありません。Apple に年間費用を払って登録した開発元の署名が付いていないだけで、中身は問題ありません。次の手順で通してください。</p>
-
-          <div class="caution">
-            <p class="caution-head"><span>⚠</span><span>セキュリティの確認を通す手順</span></p>
-            <ol>
-              <li>出てきた画面を「完了」または「OK」でいったん閉じる</li>
-              <li>画面左上の <kbd>&#63743;</kbd> マーク →「システム設定」を開く</li>
-              <li>左の列から「プライバシーとセキュリティ」を選ぶ</li>
-              <li>右側を下までスクロールすると「"Harness Editor" は開発元を確認できないため、使用がブロックされました」という行がある。その右の <strong>「このまま開く」</strong> を押す</li>
-              <li>Mac のパスワード（または Touch ID）を求められたら入力する</li>
-              <li>もう一度確認が出たら <strong>「開く」</strong> を押す</li>
-            </ol>
-            <p class="after">この作業が必要なのは 1 回目だけです。次からは普通にダブルクリックで開きます。</p>
-          </div>
-        </div>
-      </li>
-
-      <li>
-        <div class="num">5</div>
-        <div class="step-body">
           <h3>開けたら完了</h3>
           <p>アプリが立ち上がれば準備は終わりです。初回だけ、動画の保存先として「書類」フォルダの中に <span class="file">Harness Editor / Projects</span> が作られます。</p>
+          <p>2 回目からはターミナルは不要です。「アプリケーション」フォルダや Launchpad から、普通にダブルクリックで開けます。</p>
         </div>
       </li>
 
@@ -606,13 +653,23 @@
 
     <div class="faq">
       <details>
-        <summary>「壊れているため開けません」と出る</summary>
-        <p class="answer">ダウンロードが途中で切れていることが多いです。アプリをゴミ箱に入れ、ZIP も削除してから、もう一度ダウンロードし直してください。</p>
+        <summary>「壊れているため開けません」と出た。壊れているの？</summary>
+        <p class="answer">壊れていません。Apple に年間登録をしていない開発元のアプリを、Mac がダウンロード直後に一律でブロックしているだけです。手順 2 のコマンドを実行すれば開けるようになります。<strong>「ゴミ箱に入れる」は押さないでください。</strong></p>
       </details>
 
       <details>
-        <summary>「このまま開く」のボタンが見当たらない</summary>
-        <p class="answer">「プライバシーとセキュリティ」の画面を、いちばん下までスクロールしてみてください。ページの下のほうに出ます。また、この表示は一度アプリを開こうとした直後にしか出ません。見つからない場合は、先にアプリをダブルクリックしてから、もう一度システム設定を開いてください。</p>
+        <summary>先に「ゴミ箱に入れる」を押してしまった</summary>
+        <p class="answer">ゴミ箱を開いて、Harness Editor を右クリック →「戻す」で元に戻せます。ゴミ箱を空にしてしまった場合は、もう一度ダウンロードからやり直してください。ZIP が「ダウンロード」フォルダに残っていれば、手順 2 のコマンドだけで大丈夫です。</p>
+      </details>
+
+      <details>
+        <summary>コマンドを実行したらエラーが出た</summary>
+        <p class="answer">ZIP が「ダウンロード」フォルダ以外の場所にあると失敗します。ZIP を「ダウンロード」フォルダへ移してから、もう一度コマンドを実行してください。すでに ZIP を解凍してしまった場合も、ZIP さえ残っていれば同じコマンドで大丈夫です。</p>
+      </details>
+
+      <details>
+        <summary>ターミナルを使わずに入れたい</summary>
+        <p class="answer">残念ながら、いまの配布方法ではターミナルの 1 行が必要です。これを無くすには Apple の開発者登録（年額）での署名が必要なので、対応したら改めてお知らせします。コマンドは 1 回貼るだけで、2 回目からは不要です。</p>
       </details>
 
       <details>
@@ -641,39 +698,44 @@
 
 <script>
   (function () {
-    var btn = document.getElementById("copy");
-    var url = document.getElementById("url").textContent.trim();
-    btn.addEventListener("click", function () {
-      var done = function () {
-        btn.textContent = "コピーしました";
-        setTimeout(function () { btn.textContent = "リンクをコピー"; }, 2000);
-      };
-      try {
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-          navigator.clipboard.writeText(url).then(done, fallback);
-        } else {
+    var buttons = document.querySelectorAll("[data-copy]");
+    Array.prototype.forEach.call(buttons, function (btn) {
+      var source = document.getElementById(btn.getAttribute("data-copy"));
+      if (!source) return;
+      var label = btn.textContent;
+      btn.addEventListener("click", function () {
+        var text = source.textContent.trim();
+        var done = function () {
+          btn.textContent = "コピーしました";
+          setTimeout(function () { btn.textContent = label; }, 2000);
+        };
+        var fallback = function () {
+          try {
+            var ta = document.createElement("textarea");
+            ta.value = text;
+            ta.setAttribute("readonly", "");
+            ta.style.position = "fixed";
+            ta.style.opacity = "0";
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand("copy");
+            document.body.removeChild(ta);
+            done();
+          } catch (err) {
+            btn.textContent = "手動でコピーしてください";
+            setTimeout(function () { btn.textContent = label; }, 2500);
+          }
+        };
+        try {
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(done, fallback);
+          } else {
+            fallback();
+          }
+        } catch (e) {
           fallback();
         }
-      } catch (e) {
-        fallback();
-      }
-      function fallback() {
-        try {
-          var ta = document.createElement("textarea");
-          ta.value = url;
-          ta.setAttribute("readonly", "");
-          ta.style.position = "fixed";
-          ta.style.opacity = "0";
-          document.body.appendChild(ta);
-          ta.select();
-          document.execCommand("copy");
-          document.body.removeChild(ta);
-          done();
-        } catch (err) {
-          btn.textContent = "手動でコピーしてください";
-          setTimeout(function () { btn.textContent = "リンクをコピー"; }, 2500);
-        }
-      }
+      });
     });
   })();
 </script>
