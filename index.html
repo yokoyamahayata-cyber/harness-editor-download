@@ -571,27 +571,26 @@
     <p class="lead"><strong>AI 内蔵型のプレミアプロのような動画編集ソフト</strong>です。カット・テロップ・効果音・BGM・書き出しまで 1 画面で完結します。素材はすべて自分のパソコンの中だけで処理されるので、どこにもアップロードされません。</p>
 
     <div class="download">
-      <div class="cmd cmd-hero">
-        <pre id="installcmd">curl -fsSL https://yokoyamahayata-cyber.github.io/harness-editor-download/install.sh | bash</pre>
-        <div class="cmd-bar">
-          <span>ダウンロード → インストール → 起動 まで、これ 1 行で終わります</span>
-          <button class="copy copy-primary" type="button" data-copy="installcmd">コマンドをコピー</button>
-        </div>
-      </div>
+      <a class="btn" id="dl" href="https://github.com/yokoyamahayata-cyber/harness-editor-download/releases/download/v0.8.2/Harness-Editor-0.8.2-mac-apple-silicon.pkg">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v13"/><path d="m6 11 6 6 6-6"/><path d="M4 21h16"/></svg>
+        Mac アプリをダウンロード
+      </a>
       <div class="specs">
         <span>バージョン 0.8.2</span>
-        <span>約 475 MB</span>
+        <span>約 464 MB</span>
         <span>Apple Silicon Mac 専用</span>
       </div>
-      <p class="dl-note">インストールは<strong>ターミナルに 1 行貼り付けるだけ</strong>です（やり方は下の手順）。Apple への年間登録をしていない開発元のアプリは、ブラウザから入れてダブルクリックすると Mac が <span class="quote">「壊れているため開けません」</span> と表示してしまうため、それを避けられるこの方法でご案内しています。アプリは壊れていません。</p>
+      <p class="dl-note">初回だけ、Mac が <span class="quote">「Apple は…検証できませんでした」</span> という確認画面を 1 回出します。<strong>そこで青い「ゴミ箱に入れる」は押さないでください。</strong>「完了」を押して、下の手順どおりシステム設定で「このまま開く」を選べば進めます。アプリは壊れていません。</p>
       <details class="fallback">
-        <summary>ZIP を直接ダウンロードしたい方・もうダウンロード済みの方</summary>
+        <summary>ターミナルが使える方へ（確認画面を 1 回も出さない方法）</summary>
         <div class="fallback-body">
-          <p>上の 1 行は、すでに「ダウンロード」フォルダに同じ ZIP がある場合はそれを使い回します。<strong>ダウンロード済みの方も、ゴミ箱に入れてしまった方も、上のコマンドをそのまま実行すれば大丈夫です</strong>（475 MB を落とし直す必要はありません）。</p>
-          <p>ZIP だけ先に受け取りたい場合はこちらです。ただし<strong>解凍してダブルクリックしても開けません</strong>。ダウンロード後に、上の 1 行を実行してください。</p>
-          <div class="linkrow">
-            <code id="url">https://github.com/yokoyamahayata-cyber/harness-editor-download/releases/download/v0.8.2/Harness-Editor-0.8.2-mac-apple-silicon.zip</code>
-            <button class="copy" type="button" data-copy="url">リンクをコピー</button>
+          <p>ターミナルに下の 1 行を貼り付けて <strong>Enter</strong> を押すと、ダウンロードからインストール・起動まで自動で終わります。確認画面は 1 回も出ません。</p>
+          <div class="cmd">
+            <pre id="installcmd">curl -fsSL https://yokoyamahayata-cyber.github.io/harness-editor-download/install.sh | bash</pre>
+            <div class="cmd-bar">
+              <span>中身は <a href="https://github.com/yokoyamahayata-cyber/harness-editor-download/blob/main/install.sh" target="_blank" rel="noopener">install.sh</a> で公開しています</span>
+              <button class="copy" type="button" data-copy="installcmd">コマンドをコピー</button>
+            </div>
           </div>
         </div>
       </details>
@@ -600,43 +599,51 @@
 
   <section>
     <h2>インストールのしかた</h2>
-    <p class="section-note">はじめの 1 回だけ、ターミナルに 1 行貼り付けます。2 回目からはアイコンをダブルクリックするだけです。</p>
+    <p class="section-note">はじめの 1 回だけ、Mac の確認画面を通す操作があります。2 回目からはアイコンをダブルクリックするだけです。</p>
 
     <ol class="steps">
 
       <li>
         <div class="num">1</div>
         <div class="step-body">
-          <h3>ターミナルを開く</h3>
-          <p><kbd>command</kbd> + <kbd>スペース</kbd> を押して、<strong>ターミナル</strong> と入力して <kbd>Enter</kbd>。黒い画面が開きます。ふだん使わないアプリですが、使うのはこの 1 回だけです。</p>
+          <h3>ダウンロードする</h3>
+          <p>上のボタンを押すと「ダウンロード」フォルダに <span class="file">Harness-Editor-0.8.2-mac-apple-silicon.pkg</span> が入ります。464 MB あるので、回線によっては 5〜15 分かかります。終わるまでそのままお待ちください。</p>
         </div>
       </li>
 
       <li class="step-key">
         <div class="num">2</div>
         <div class="step-body">
-          <h3>1 行貼り付けて Enter</h3>
-          <p>ページ上部の <strong>「コマンドをコピー」</strong> を押し、ターミナルの画面をクリックしてから <kbd>command</kbd> + <kbd>V</kbd> で貼り付け、<kbd>Enter</kbd> を押します。</p>
+          <h3>ダブルクリックして「完了」を押す</h3>
+          <p>ダウンロードしたファイルをダブルクリックすると、<span class="quote">Apple は、“Harness-Editor…pkg” に…マルウェアが含まれていないことを検証できませんでした。</span> という画面が出ます。これは Apple に年間登録していない開発元のアプリに、Mac が一律で出す確認です。</p>
 
-          <div class="cmd">
-            <pre id="installcmd2">curl -fsSL https://yokoyamahayata-cyber.github.io/harness-editor-download/install.sh | bash</pre>
-            <div class="cmd-bar">
-              <span>ダウンロード → 解凍 → インストール → 制限の解除 → 起動</span>
-              <button class="copy" type="button" data-copy="installcmd2">コマンドをコピー</button>
-            </div>
+          <div class="caution">
+            <p class="caution-head"><span>⚠</span><span>ここだけ注意</span></p>
+            <ol>
+              <li>青く光っている <strong>「ゴミ箱に入れる」は押さないでください</strong>（アプリが消えます）</li>
+              <li>その下の <strong>「完了」</strong> を押して、いったん閉じます</li>
+            </ol>
           </div>
+        </div>
+      </li>
 
-          <p class="note-inline">このコマンドは、アプリ本体（約 475 MB）のダウンロード、「アプリケーション」フォルダへの設置、Mac がダウンロードファイルに付ける「インターネットから来た印」の削除、アプリの起動だけを行います。パスワードは不要で、何かを外部に送ることもありません。中身は <a href="https://github.com/yokoyamahayata-cyber/harness-editor-download/blob/main/install.sh" target="_blank" rel="noopener">install.sh</a> で全文公開しています。</p>
+      <li class="step-key">
+        <div class="num">3</div>
+        <div class="step-body">
+          <h3>システム設定で「このまま開く」を押す</h3>
+          <p>画面左上の <strong>アップルマーク</strong> →「システム設定」→ 左側の <strong>「プライバシーとセキュリティ」</strong> を開き、下のほうまでスクロールします。</p>
+          <p><span class="quote">“Harness-Editor-0.8.2-mac-apple-silicon.pkg” は…ブロックされました</span> という行があるので、その横の <strong>「このまま開く」</strong> を押してください。Mac のパスワード（または Touch ID）を求められます。</p>
+          <p class="note-inline">この行は、手順 2 でダブルクリックした直後にだけ表示されます。見当たらないときは、もう一度ファイルをダブルクリックしてから開き直してください。</p>
         </div>
       </li>
 
       <li>
-        <div class="num">3</div>
+        <div class="num">4</div>
         <div class="step-body">
-          <h3>終わるまで待つ</h3>
-          <p>ターミナルに進捗バーが出ます。475 MB あるので、回線によっては 5〜15 分かかります。<strong>バーが伸びていれば動いています</strong>ので、終わるまでそのままお待ちください。</p>
-          <p>終わると <span class="quote">インストールが終わりました。</span> と表示され、Harness Editor が自動で立ち上がります。初回だけ、動画の保存先として「書類」フォルダの中に <span class="file">Harness Editor / Projects</span> が作られます。</p>
-          <p>2 回目からはターミナルは不要です。「アプリケーション」フォルダや Launchpad から、普通にダブルクリックで開けます。</p>
+          <h3>インストーラを進める</h3>
+          <p>インストーラが開いたら <strong>「続ける」→「インストール」</strong> と押します。ここでもう一度 Mac のパスワードを求められます。1〜2 分で終わります。</p>
+          <p>終わると <strong>Harness Editor が自動で開きます</strong>。初回だけ、動画の保存先として「書類」フォルダの中に <span class="file">Harness Editor / Projects</span> が作られます。</p>
+          <p>2 回目からは確認画面は出ません。Launchpad や「アプリケーション」フォルダから、普通にダブルクリックで開けます。ダウンロードした .pkg ファイルは消してかまいません。</p>
         </div>
       </li>
 
@@ -691,28 +698,28 @@
 
     <div class="faq">
       <details>
-        <summary>「壊れているため開けません」と出た。壊れているの？</summary>
-        <p class="answer">壊れていません。Apple への年間登録（有料）をしていない開発元のアプリを、Mac がダウンロード直後に一律でブロックしているだけです。<strong>「ゴミ箱に入れる」は押さずにキャンセル</strong>し、ページ上部の 1 行コマンドを実行してください。すでにダウンロードした ZIP はそのまま使い回されるので、落とし直しは不要です。</p>
+        <summary>「検証できませんでした」と出た。危ないの？</summary>
+        <p class="answer">危なくありません。Apple への年間登録（有料）をしていない開発元のアプリを、Mac がダウンロード直後に一律でブロックしているだけで、中身を調べた結果ではありません。<strong>青い「ゴミ箱に入れる」は押さず、「完了」</strong>を押してから、手順 3 のとおりシステム設定で「このまま開く」を選んでください。</p>
       </details>
 
       <details>
-        <summary>先に「ゴミ箱に入れる」を押してしまった</summary>
-        <p class="answer">そのままで大丈夫です。ページ上部の 1 行コマンドを実行すれば、ZIP から入れ直されます。ゴミ箱の中のアプリは右クリック →「削除」で捨ててかまいません。</p>
+        <summary>「ゴミ箱に入れる」を押してしまった</summary>
+        <p class="answer">ゴミ箱を開いて、.pkg ファイルを右クリック →「戻す」で元に戻せます。ゴミ箱を空にしてしまった場合は、上のボタンからもう一度ダウンロードしてください。</p>
       </details>
 
       <details>
-        <summary>コマンドを実行したらエラーが出た</summary>
-        <p class="answer">ほとんどは通信が途中で切れた場合です。<strong>もう一度同じコマンドを実行してください。</strong>途中まで落ちた分は残っているので、続きから再開します。それでも止まる場合は、Wi-Fi の安定した場所で時間を置いてお試しください。赤い字のメッセージが出ていたら、その文面をそのままご連絡いただければ原因が分かります。</p>
+        <summary>システム設定に「このまま開く」が見当たらない</summary>
+        <p class="answer">この表示は、.pkg をダブルクリックした直後にだけ出ます。時間が経つと消えるので、<strong>もう一度 .pkg をダブルクリックして「完了」を押し、それからシステム設定を開いてください。</strong>場所は「プライバシーとセキュリティ」の下のほう、「セキュリティ」の見出しの下です。</p>
       </details>
 
       <details>
-        <summary>ターミナルを使わずに入れたい</summary>
-        <p class="answer">残念ながら、いまの配布方法ではターミナルの 1 行が必要です。これを無くすには Apple の開発者登録（年額）での署名と公証が必要なので、対応したら改めてお知らせします。コマンドは最初の 1 回だけで、2 回目からはダブルクリックで開けます。</p>
+        <summary>ターミナルは使わないの？</summary>
+        <p class="answer">このページの手順にターミナルは出てきません。ダウンロードボタンと、システム設定の「このまま開く」だけで入ります。確認画面そのものを無くすには Apple の開発者登録（年額）での署名と公証が必要なので、対応したら改めてお知らせします。</p>
       </details>
 
       <details>
         <summary>ダウンロードが途中で止まる</summary>
-        <p class="answer">475 MB と大きいので、電波の弱い場所では止まることがあります。同じコマンドをもう一度実行すると、途中から再開します。Wi-Fi の安定した場所でお試しください。</p>
+        <p class="answer">464 MB と大きいので、電波の弱い場所では止まることがあります。Wi-Fi の安定した場所で、もう一度ダウンロードし直してください。</p>
       </details>
 
       <details>
