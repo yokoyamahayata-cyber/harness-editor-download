@@ -28,10 +28,11 @@ cat > "$W/scripts/postinstall" <<'EOF'
 # staging に置いた ZIP を /Applications へ展開する
 STAGE="/private/tmp/harness-editor-install"
 ZIP="$STAGE/app.zip"
-APP_DEST="/Applications/Harness Editor.app"
+APP_DEST="/Applications/Harness Editor（無料版）.app"
 
 [ -f "$ZIP" ] || exit 1
 
+/usr/bin/pkill -f "/Harness Editor（無料版）.app/Contents/MacOS/" 2>/dev/null
 /usr/bin/pkill -f "/Harness Editor.app/Contents/MacOS/" 2>/dev/null
 /bin/sleep 1
 
@@ -46,6 +47,9 @@ if [ -z "$APP_SRC" ]; then
 fi
 
 /bin/rm -rf "$APP_DEST"
+# 旧名（Harness Editor.app）で入っていたら片付ける。中身は同じアプリで、
+# 作品も設定もアプリの外（書類フォルダと Application Support）にあるので失われない。
+/bin/rm -rf "/Applications/Harness Editor.app"
 if ! /bin/mv "$APP_SRC" "$APP_DEST"; then
   /bin/rm -rf "$TMP"; exit 1
 fi
@@ -77,9 +81,9 @@ cat > "$W/resources/welcome.html" <<'EOF'
 <html>
 <head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta charset="UTF-8"></head>
 <body style="font-family:-apple-system,'Hiragino Kaku Gothic ProN',sans-serif;font-size:13px;line-height:1.85;color:#1d1d1f">
-<p>Harness Editor を「アプリケーション」フォルダにインストールします。</p>
+<p>Harness Editor（無料版）を「アプリケーション」フォルダにインストールします。</p>
 <p>「続ける」を押して進めてください。途中で Mac のパスワード（または Touch ID）を求められます。</p>
-<p style="color:#6e6e73">・インストールには 1〜2 分かかります<br>・終わると自動で Harness Editor が開きます<br>・2 回目からは Launchpad からダブルクリックで開けます</p>
+<p style="color:#6e6e73">・インストールには 1〜2 分かかります<br>・終わると自動で Harness Editor（無料版）が開きます<br>・2 回目からは Launchpad からダブルクリックで開けます</p>
 </body></html>
 EOF
 
@@ -88,8 +92,8 @@ cat > "$W/resources/conclusion.html" <<'EOF'
 <head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta charset="UTF-8"></head>
 <body style="font-family:-apple-system,'Hiragino Kaku Gothic ProN',sans-serif;font-size:13px;line-height:1.85;color:#1d1d1f">
 <p><b>インストールが完了しました。</b></p>
-<p>Harness Editor が自動で開きます（初回は立ち上がるまで少し時間がかかります）。</p>
-<p>もし開かない場合は、Launchpad または「アプリケーション」フォルダの Harness Editor をダブルクリックしてください。</p>
+<p>Harness Editor（無料版）が自動で開きます（初回は立ち上がるまで少し時間がかかります）。</p>
+<p>もし開かない場合は、Launchpad または「アプリケーション」フォルダの Harness Editor（無料版）をダブルクリックしてください。</p>
 <p style="color:#6e6e73">ダウンロードした .pkg ファイルは、もう消してかまいません。</p>
 </body></html>
 EOF
@@ -104,7 +108,7 @@ done
 cat > "$W/dist.xml" <<EOF
 <?xml version="1.0" encoding="utf-8"?>
 <installer-gui-script minSpecVersion="2">
-  <title>Harness Editor</title>
+  <title>Harness Editor&#xFF08;&#x7121;&#x6599;&#x7248;&#xFF09;</title>
   <welcome file="welcome.html" mime-type="text/html; charset=UTF-8"/>
   <conclusion file="conclusion.html" mime-type="text/html; charset=UTF-8"/>
   <domains enable_anywhere="false" enable_currentUserHome="false" enable_localSystem="true"/>

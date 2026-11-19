@@ -12,7 +12,7 @@ set -uo pipefail
 
 REPO="yokoyamahayata-cyber/harness-editor-download"
 FALLBACK_URL="https://github.com/${REPO}/releases/download/v0.8.5/Harness-Editor-0.8.5-mac-apple-silicon.zip"
-APP_NAME="Harness Editor.app"
+APP_NAME="Harness Editor（無料版）.app"
 DEST_DIR="${HARNESS_EDITOR_DEST:-/Applications}"
 DOWNLOAD_DIR="${HARNESS_EDITOR_DOWNLOAD_DIR:-$HOME/Downloads}"
 OPEN_AFTER="${HARNESS_EDITOR_OPEN:-1}"
@@ -30,7 +30,7 @@ ok()   { printf '%s✓%s %s\n' "$G" "$N" "$*"; }
 die()  { printf '\n%s✗ %s%s\n' "$R" "$1" "$N" >&2; shift; for l in "$@"; do printf '  %s\n' "$l" >&2; done; exit 1; }
 
 say ""
-say "${B}Harness Editor インストーラ${N}"
+say "${B}Harness Editor（無料版）インストーラ${N}"
 say "────────────────────────────────"
 
 # 1. この Mac で動くか
@@ -126,6 +126,8 @@ if [ ! -w "$DEST_DIR" ]; then
   say "  （/Applications に書き込めないため ${DEST_DIR} へ入れます）"
 fi
 APP_DEST="${DEST_DIR}/${APP_NAME}"
+# 旧名（Harness Editor.app）で入っていたら片付ける（中身は同じアプリ）。
+rm -rf "${DEST_DIR}/Harness Editor.app" 2>/dev/null
 if [ -e "$APP_DEST" ]; then
   rm -rf "$APP_DEST" || die "古いアプリを置き換えられませんでした。" "Harness Editor を終了してから、もう一度実行してください。"
 fi
