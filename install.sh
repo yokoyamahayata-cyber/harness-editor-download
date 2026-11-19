@@ -136,6 +136,10 @@ ok "$APP_DEST"
 step "ダウンロード時の制限を外しています"
 xattr -dr com.apple.quarantine "$APP_DEST" 2>/dev/null
 xattr -cr "$APP_DEST" 2>/dev/null
+
+# 配布 ZIP では node-pty の spawn-helper の実行ビットが落ちている。そのままでも
+# アプリが起動時に直すが、先に戻しておく（AI タブの「実行権限を復旧できませんでした」対策）。
+find "$APP_DEST/Contents/Resources/runtime/node_modules/node-pty" -name spawn-helper -type f -exec chmod +x {} \; 2>/dev/null
 ok "完了"
 
 # 8. 起動

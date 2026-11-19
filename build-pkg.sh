@@ -50,11 +50,22 @@ if ! /bin/mv "$APP_SRC" "$APP_DEST"; then
   /bin/rm -rf "$TMP"; exit 1
 fi
 
-/usr/sbin/chown -R root:wheel "$APP_DEST" 2>/dev/null
+# 配布 ZIP では node-pty の spawn-helper の実行ビットが落ちている。アプリは起動時に
+# 自分で chmod して直すが、root 所有だと EPERM で直せず AI タブが
+# 「ターミナル補助プログラムの実行権限を復旧できませんでした」で止まる。
+# そこで ①helper に実行ビットを戻し ②アプリの持ち主をインストールした本人にする。
+/usr/bin/find "$APP_DEST/Contents/Resources/runtime/node_modules/node-pty" \
+  -name spawn-helper -type f -exec /bin/chmod +x {} \; 2>/dev/null
+
+CONSOLE_UID=$(/usr/bin/stat -f %u /dev/console 2>/dev/null)
+if [ -n "$CONSOLE_UID" ] && [ "$CONSOLE_UID" -ne 0 ] 2>/dev/null; then
+  /usr/sbin/chown -R "$CONSOLE_UID":staff "$APP_DEST" 2>/dev/null
+else
+  /usr/sbin/chown -R root:wheel "$APP_DEST" 2>/dev/null
+fi
 /usr/bin/xattr -dr com.apple.quarantine "$APP_DEST" 2>/dev/null
 /bin/rm -rf "$TMP" "$STAGE"
 
-CONSOLE_UID=$(/usr/bin/stat -f %u /dev/console 2>/dev/null)
 if [ -n "$CONSOLE_UID" ] && [ "$CONSOLE_UID" -ne 0 ] 2>/dev/null; then
   /bin/launchctl asuser "$CONSOLE_UID" /usr/bin/open -a "$APP_DEST" 2>/dev/null
 fi
