@@ -11,7 +11,7 @@
 set -uo pipefail
 
 REPO="yokoyamahayata-cyber/harness-editor-download"
-FALLBACK_URL="https://github.com/${REPO}/releases/download/v0.8.2/Harness-Editor-0.8.2-mac-apple-silicon.zip"
+FALLBACK_URL="https://github.com/${REPO}/releases/download/v0.8.5/Harness-Editor-0.8.5-mac-apple-silicon.zip"
 APP_NAME="Harness Editor.app"
 DEST_DIR="${HARNESS_EDITOR_DEST:-/Applications}"
 DOWNLOAD_DIR="${HARNESS_EDITOR_DOWNLOAD_DIR:-$HOME/Downloads}"
@@ -50,7 +50,7 @@ URL=$(printf '%s\n' "$API_JSON" | grep -o 'https://[^"]*\.zip' | head -1)
 VERSION=$(printf '%s\n' "$API_JSON" | sed -n 's/.*"tag_name": *"v\{0,1\}\([^"]*\)".*/\1/p' | head -1)
 if [ -z "$URL" ]; then
   URL="$FALLBACK_URL"
-  VERSION="0.8.2"
+  VERSION="0.8.5"
   say "  （バージョン確認に失敗したので、既定の ${VERSION} を使います）"
 fi
 ZIP_NAME=$(basename "$URL")
